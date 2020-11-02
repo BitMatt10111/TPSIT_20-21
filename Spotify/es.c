@@ -4,8 +4,8 @@
 #include <string.h>
 #include <time.h>
 #define LUNG 25
-#define N_CANZONI 11
-#define SIZE 100
+#define N_CANZONI 10
+#define SIZE 100 //grandezza massima di una riga del file
 
 typedef struct canzone{
     int num;
@@ -13,16 +13,10 @@ typedef struct canzone{
     char artista[LUNG];
 }Canzone;
 
-void visualizzaPlaylist(Canzone play[],int num){
-    for(int k=0; k<num; k++){
-        printf("%d - %s - %s\n",play[k].num,play[k].nome_canzone,play[k].artista);
-    }
-}
-
-bool check(int vet[],int cerc,int dim){
+bool ricerca(int vet[],int cerc,int dim){ //funzione che controlla se il numero randomico inserito è già presente all'interno del vettore
     bool ok=false;
     for(int k=0;k<dim;k++){
-        if(cerc==vet[k]){
+        if(cerc==vet[k]){ //se è uguale return true ed esce dal ciclo
             ok=true;
             k=dim;
         }
@@ -35,11 +29,12 @@ void printRand(Canzone playlist[],int dim){
     srand(time(NULL));
     for(int i=0;i<dim;i++){
         do{
-            vet[i]=rand()%(dim-1+1);
-        }while(check(vet,vet[i],i));
+            vet[i]=rand()%(dim-1+1); //carica il vettore con un valore randomico da 0 a 9
+        }while(ricerca(vet,vet[i],i)); //funzione che controlla se il numero randomico inserito è già presente all'interno del vettore
     }
     for(int j=0;j<dim;j++){
-        printf("%d - %s - %s\n",playlist[vet[j]].num,playlist[vet[j]].nome_canzone,playlist[vet[j]].artista);
+        printf("%d - %s - %s\n",playlist[vet[j]].num,playlist[vet[j]].nome_canzone,playlist[vet[j]].artista); 
+        //scrive a schermo in modo randomico le canzoni utilizzando il vettore randomico da 0 a 9.
     }
 }
 
@@ -53,11 +48,11 @@ int main(){
         printf("File non esistente");
     }else{
         while(fgets(buffer,SIZE,fp)){
-            playlist[k].num = atoi(strtok(buffer,","));
+            playlist[k].num = atoi(strtok(buffer,",")); //prende tutto prima della virgola e lo trasforma in intero
             //printf("%d",playlist[k].num);
-            strcpy(playlist[k].nome_canzone,strtok(NULL,","));
+            strcpy(playlist[k].nome_canzone,strtok(NULL,",")); //prende tutto da dopo la virgola alla virgola successiva
             //printf("%s",playlist[k].nome_canzone);
-            strcpy(playlist[k].artista,strtok(NULL,"\n"));
+            strcpy(playlist[k].artista,strtok(NULL,"\n")); //prende tutto fino all'a capo
             //printf("%s\n",playlist[k].artista);
             k++;
         }
