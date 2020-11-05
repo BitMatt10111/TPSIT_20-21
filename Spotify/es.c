@@ -49,12 +49,12 @@ int main(){
     if((fp=fopen("canzoni.csv","r"))==NULL){
         printf("File non esistente");
     }else{
-        while(fgets(buffer,SIZE,fp)){
+        while(fgets(buffer,SIZE,fp)){ //leggo una volta tutto il file per sapere quante canzoni ci sono all'interno
             k++;
         }
         fclose(fp);
         fp=fopen("canzoni.csv","r");
-        playlist = malloc(k * sizeof(Canzone));
+        playlist = malloc(k * sizeof(Canzone)); //allocazione dinamica della memoria
         k=0;
         while(fgets(buffer,SIZE,fp)){
             (playlist+k)->num = atoi(strtok(buffer,",")); //prende tutto prima della virgola e lo trasforma in intero
